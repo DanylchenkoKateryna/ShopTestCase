@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using ShopTestCase.DTO;
-using ShopTestCase.Entities;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using ShopTestCase.Data.DTO;
+using ShopTestCase.Data.Entities;
 
 namespace ShopTestCase.Data
 {

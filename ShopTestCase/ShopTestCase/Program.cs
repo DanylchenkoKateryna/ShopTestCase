@@ -1,6 +1,10 @@
+using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShopTestCase.Contracts;
 using ShopTestCase.Data;
+using ShopTestCase.Data.Entities;
+using ShopTestCase.Data.FluentValidation;
 using ShopTestCase.Repository;
 using System.Text.Json.Serialization;
 
@@ -14,6 +18,9 @@ builder.Services.AddDbContext<ShopContext>(opts =>
  opts.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection")));
 builder.Services.AddScoped<IProductRepository,ProductRepository>();
 builder.Services.AddScoped<IOrderRepository,OrderRepository>();
+builder.Services.AddScoped<IValidator<Order>, OrderValidator>();
+builder.Services.AddScoped<IValidator<Product>, ProductValidator>();
+builder.Services.AddScoped<IValidator<OrderProduct>, OrderProductValidator>();
 builder.Services.AddAutoMapper(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +34,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopTestCase.Contracts;
 using ShopTestCase.Data;
-using ShopTestCase.DTO;
-using ShopTestCase.Entities;
+using ShopTestCase.Data.Entities;
 
 namespace ShopTestCase.Repository
 {

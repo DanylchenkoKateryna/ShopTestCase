@@ -1,6 +1,6 @@
-﻿using ShopTestCase.Entities;
+﻿
 
-namespace ShopTestCase.DTO
+namespace ShopTestCase.Data.DTO
 {
     public class OrderForCreationDTO
     {

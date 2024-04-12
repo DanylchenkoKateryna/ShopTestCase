@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ShopTestCase.Contracts;
-using ShopTestCase.DTO;
-using ShopTestCase.Entities;
+using ShopTestCase.Data.DTO;
+using ShopTestCase.Data.Entities;
 
 namespace ShopTestCase.Controllers
 {
@@ -13,12 +14,14 @@ namespace ShopTestCase.Controllers
         private readonly IOrderRepository _repository;
         private readonly ILogger<OrderController> _logger;
         private readonly IMapper _mapper;
+        private readonly IValidator<Order> _validator;
 
-        public OrderController(IOrderRepository order, IMapper mapper, ILogger<OrderController> logger)
+        public OrderController(IOrderRepository order, IMapper mapper, ILogger<OrderController> logger, IValidator<Order> validator)
         {
             _repository = order ?? throw new ArgumentNullException(nameof(order));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         [HttpPost]
@@ -30,6 +33,12 @@ namespace ShopTestCase.Controllers
             {
                 _logger.LogError("CreateOrderRequest object sent from client is null.");
                 return BadRequest("CreateOrderRequest object is null");
+            }
+            var result = await _validator.ValidateAsync(_mapper.Map<Order>(createOrderDTO));
+            if (!result.IsValid)
+            {
+                var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errorMessages);
             }
             var orderEntity = _mapper.Map<Order>(createOrderDTO);
             await _repository.CreateOrder(orderEntity);

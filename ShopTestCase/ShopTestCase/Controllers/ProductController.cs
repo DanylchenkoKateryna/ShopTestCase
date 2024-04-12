@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopTestCase.Contracts;
-using ShopTestCase.Entities;
-using ShopTestCase.DTO;
 using AutoMapper;
+using ShopTestCase.Data.DTO;
+using ShopTestCase.Data.Entities;
+using FluentValidation;
 
 namespace ShopTestCase.Controllers
 {
@@ -13,12 +14,14 @@ namespace ShopTestCase.Controllers
         private readonly IProductRepository _repository;
         private readonly ILogger<ProductController> _logger;
         private readonly IMapper _mapper;
+        private readonly IValidator<Product> _validator;
 
-        public ProductController(IProductRepository product, IMapper mapper, ILogger<ProductController> logger)
+        public ProductController(IProductRepository product, IMapper mapper, ILogger<ProductController> logger, IValidator<Product> validator)
         {
             _repository = product ?? throw new ArgumentNullException(nameof(product));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -93,6 +96,12 @@ namespace ShopTestCase.Controllers
                 _logger.LogError("CreateProductRequest object sent from client is null.");
                 return BadRequest("CreateProductRequest object is null");
             }
+            var result = await _validator.ValidateAsync(_mapper.Map<Product>(productDTO));
+            if (!result.IsValid)
+            {
+                var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errorMessages);
+            }
             var productEntity = _mapper.Map<Product>(productDTO);
             await _repository.CreateProduct(productEntity);
             var productToReturn = _mapper.Map<ProductDTO>(productEntity);
@@ -116,6 +125,12 @@ namespace ShopTestCase.Controllers
             {
                 _logger.LogInformation($"Product with id: {id} doesn't exist in the database.");
                 return NotFound();
+            }
+            var result = await _validator.ValidateAsync(_mapper.Map(productDto, product));
+            if (!result.IsValid)
+            {
+                var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();
+                return BadRequest(errorMessages);
             }
             await _repository.UpdateProduct(_mapper.Map(productDto, product));
             return NoContent();

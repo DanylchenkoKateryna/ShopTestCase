@@ -1,4 +1,4 @@
-﻿using ShopTestCase.Entities;
+﻿using ShopTestCase.Data.Entities;
 
 namespace ShopTestCase.Contracts
 {

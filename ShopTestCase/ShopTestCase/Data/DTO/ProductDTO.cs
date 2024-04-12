@@ -1,4 +1,4 @@
-﻿namespace ShopTestCase.DTO
+﻿namespace ShopTestCase.Data.DTO
 {
     public class ProductDTO
     {

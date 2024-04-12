@@ -1,7 +1,8 @@
-﻿namespace ShopTestCase.DTO
+﻿namespace ShopTestCase.Data.Entities
 {
-    public class ProductForUpdateDTO
+    public class Product
     {
+        public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }

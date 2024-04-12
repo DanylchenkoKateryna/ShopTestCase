@@ -1,6 +1,6 @@
-﻿namespace ShopTestCase.DTO
+﻿namespace ShopTestCase.Data.DTO
 {
-    public class ProductForCreateDTO
+    public class ProductForUpdateDTO
     {
         public string Code { get; set; }
         public string Name { get; set; }

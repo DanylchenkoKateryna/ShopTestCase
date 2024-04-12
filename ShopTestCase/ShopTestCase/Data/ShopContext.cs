@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ShopTestCase.Entities;
+using ShopTestCase.Data.Entities;
 using System.Reflection.Emit;
 
 namespace ShopTestCase.Data

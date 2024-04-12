@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ShopTestCase.Entities
+namespace ShopTestCase.Data.Entities
 {
     public class OrderProduct
     {
@@ -10,7 +10,7 @@ namespace ShopTestCase.Entities
         public int Amount { get; set; }
         public Order Order { get; set; }
         public Product Product { get; set; }
-        public decimal TotalPrice { get { return Amount* (Product?.Price ?? 0);} set { } }
+        public decimal TotalPrice { get; set; }
 
     }
 }
