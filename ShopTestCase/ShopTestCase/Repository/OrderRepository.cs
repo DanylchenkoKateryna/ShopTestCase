@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ShopTestCase.Contracts;
 using ShopTestCase.Data;
+using ShopTestCase.DTO;
 using ShopTestCase.Entities;
 
 namespace ShopTestCase.Repository
 {
-    public class OrderRepository : IOrderRepoitory
+    public class OrderRepository : IOrderRepository
     {
         private readonly ShopContext _context;
-        public OrderRepository(ShopContext _context)
+        public OrderRepository(ShopContext context)
         {
-            _context = _context ?? throw new ArgumentNullException(nameof(_context));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task CreateOrder(Order order)
         {

@@ -8,9 +8,9 @@ namespace ShopTestCase.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly ShopContext _context;
-        public ProductRepository(ShopContext _context)
+        public ProductRepository(ShopContext context)
         {
-            _context = _context ?? throw new ArgumentNullException(nameof(_context));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task CreateProduct(Product product)
         {
@@ -33,18 +33,10 @@ namespace ShopTestCase.Repository
             return await _context.Products.FromSql($"Select * from Products").ToListAsync();
         }
 
-        public async Task UpdateProduct(int id, Product product)
+        public async Task UpdateProduct( Product product)
         {
-            var existingProduct = await GetProduct(id);
-
-            if (existingProduct != null)
-            {
-                existingProduct.Code = product.Code;
-                existingProduct.Name = product.Name;
-                existingProduct.Price = product.Price;
-
-                await _context.SaveChangesAsync();
-            }
+            _context.Entry(product).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }

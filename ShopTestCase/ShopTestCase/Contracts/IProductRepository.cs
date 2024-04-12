@@ -8,6 +8,6 @@ namespace ShopTestCase.Contracts
         Task<Product> GetProduct(int id);
         Task<Product> GetProductByCode(string code);
         Task CreateProduct(Product product);
-        Task UpdateProduct(int id,Product product);
+        Task UpdateProduct(Product product);
     }
 }

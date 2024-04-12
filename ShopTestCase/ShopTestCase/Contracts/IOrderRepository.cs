@@ -2,7 +2,7 @@
 
 namespace ShopTestCase.Contracts
 {
-    public interface IOrderRepoitory
+    public interface IOrderRepository
     {
         Task<IEnumerable<Order>> GetOrders();
         Task<Order> GetOrder(int id);
