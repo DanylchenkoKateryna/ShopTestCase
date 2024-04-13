@@ -15,6 +15,17 @@ namespace ShopTestCase.Repository
         public async Task CreateOrder(Order order)
         {
             _context.Orders.Add(order);
+
+            // Calculate TotalPrice for each OrderProduct
+            foreach (var item in order.OrderProducts)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product == null)
+                {
+                    throw new Exception($"Product with ID {item.ProductId} not found.");
+                }
+                item.TotalPrice = item.Amount * product.Price;
+            }
             await _context.SaveChangesAsync();
         }
 

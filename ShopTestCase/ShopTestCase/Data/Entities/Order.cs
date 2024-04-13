@@ -8,7 +8,7 @@ namespace ShopTestCase.Data.Entities
         public DateTime CreatedOn { get; private set; }
         public string CustomerFullName { get; set; }
         public string CustomerPhone { get; set; }
-        public List<OrderProduct> OrderProducts { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
         public Order()
         {
             CreatedOn = DateTime.Now;

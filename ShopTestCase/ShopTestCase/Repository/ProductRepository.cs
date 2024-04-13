@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using ShopTestCase.Contracts;
 using ShopTestCase.Data;
 using ShopTestCase.Data.Entities;
@@ -20,17 +21,25 @@ namespace ShopTestCase.Repository
 
         public async Task<Product> GetProduct(int id)
         {
-            return await _context.Products.FromSql($"SELECT * FROM Products WHERE Id = {id}").FirstOrDefaultAsync();
+            string sqlQuery = "SELECT * FROM Products WHERE Id = @id";
+
+            SqlParameter parameter = new SqlParameter("@id", id);
+
+            return await _context.Products.FromSqlRaw(sqlQuery, parameter).FirstOrDefaultAsync();
         }
 
         public async Task<Product> GetProductByCode(string code)
         {
-            return await _context.Products.FromSql($"SELECT * FROM Products WHERE Code = {code}").FirstOrDefaultAsync();
+            string sqlQuery = "SELECT * FROM Products WHERE Code = @code";
+
+            SqlParameter parameter = new SqlParameter("@code", code);
+
+            return await _context.Products.FromSqlRaw(sqlQuery, parameter).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Product>> GetProducts()
         {
-            return await _context.Products.FromSql($"Select * from Products").ToListAsync();
+            return await _context.Products.FromSqlRaw($"Select * from Products").ToListAsync();
         }
 
         public async Task UpdateProduct( Product product)
