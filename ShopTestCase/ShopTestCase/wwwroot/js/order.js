@@ -106,6 +106,6 @@ addOrderForm.addEventListener('submit',(e)=>{
         const dataArray=[];
         dataArray.push(data);
         renderOrders(dataArray);
-    }) .then(()=> location.reload())
+    }) 
 
 })
