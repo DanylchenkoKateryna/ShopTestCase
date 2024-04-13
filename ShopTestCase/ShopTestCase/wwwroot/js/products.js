@@ -70,7 +70,7 @@ function getProductByCode(productCode) {
 //Method: Get
 searchButton.addEventListener('click', (e) => {
     e.preventDefault();
-    // Get the product ID from the input field
+
     const searchValue  = document.getElementById('search-value').value;
     console.log(searchValue );
     if (!isNaN(searchValue)) {
@@ -81,13 +81,22 @@ searchButton.addEventListener('click', (e) => {
     });
 
 
+
 productList.addEventListener('click',(e)=>{
     e.preventDefault();
+    
     let editButtonIspressed = e.target.id == 'edit-product';
 
     let id=e.target.parentElement.dataset.id;
 
-    if(editButtonIspressed){
+    if (editButtonIspressed) {
+
+        var addButton = document.getElementById("mybutton1");
+        if (addButton.textContent === "Add Product") {
+            addButton.textContent = "Edit Product";
+        } else {
+            addButton.textContent = "Add Product";
+        }
         const parent =e.target.parentElement;
         let nameContent=parent.querySelector('.card-title').textContent;
         let codeContent=parent.querySelector('.card-text1').textContent;
